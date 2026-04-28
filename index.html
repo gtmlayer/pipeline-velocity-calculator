@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Velocity Calculator | GTM Layer</title>
+    <meta name="description" content="Calculate your pipeline velocity and find out which revenue lever has the biggest impact. Free tool from GTM Layer.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.bunny.net/css?family=jetbrains-mono:400,500" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-primary: #0f1f21;
+            --bg-card: #162829;
+            --bg-input: #1a3234;
+            --bg-hover: #1e3a3d;
+            --border: rgba(139, 207, 178, 0.15);
+            --border-focus: rgba(139, 207, 178, 0.4);
+            --text-primary: #e8f0ed;
+            --text-secondary: #8a9f9b;
+            --text-muted: #5a736e;
+            --accent: #8bcfb2;
+            --accent-dim: rgba(139, 207, 178, 0.12);
+            --accent-hover: #a3dbc4;
+            --teal: #2b5458;
+            --teal-light: #3a6b70;
+            --positive: #8bcfb2;
+            --warning: #e8c547;
+            --danger: #e85a5a;
+            --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .calculator {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+              }
+
+        /* Input Section */
+        .input-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .icon {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-dim);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: var(--accent);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .input-group .help {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: -2px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper .prefix,
+        .input-wrapper .suffix {
+            position: absolute;
+            font-size: 14px;
+            color: var(--text-muted);
+            pointer-events: none;
+            font-family: var(--font-mono);
+        }
+
+        .input-wrapper .prefix { left: 14px; }
+        .input-wrapper .suffix { right: 14px; }
+
+        .input-wrapper input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 16px;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+        }
+
+        .input-wrapper input.has-prefix { padding-left: 28px; }
+        .input-wrapper input.has-suffix { padding-right: 40px; }
+
+        /* Time Period Toggle */
+        .period-toggle {
+            display: flex;
+            background: var(--bg-input);
+            border-radius: 8px;
+            padding: 3px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .period-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: var(--font-sans);
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .period-btn.active {
+            background: var(--teal);
+            color: var(--text-primary);
+        }
+
+        .period-btn:hover:not(.active) {
+            color: var(--text-secondary);
+}
+
+        /* Results */
+        .results-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .velocity-display {
+            text-align: center;
+            padding: 32px 0;
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .velocity-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .velocity-value {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .velocity-period {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .velocity-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breakdown-item {
+            text-align: center;
+            padding: 16px 12px;
+            background: var(--bg-input);
+            border-radius: 8px;
+        }
+
+        .breakdown-item .value {
+            font-size: 22px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .breakdown-item .label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Lever Analysis */
+        .lever-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .lever-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .lever-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .lever-table th {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            padding: 0 12px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .lever-table th:last-child { text-align: right; }
+        .lever-table th:nth-child(2),
+        .lever-table th:nth-child(3) { text-align: center; }
+
+        .lever-table td {
+            padding: 14px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .lever-table tr:last-child td { border-bottom: none; }
+
+        .lever-table td:first-child {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .lever-table td:nth-child(2),
+        .lever-table td:nth-child(3) {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .lever-table td:last-child {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .impact-bar-cell {
+            padding: 14px 12px;
+        }
+
+        .impact-bar-wrapper {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .impact-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .impact-positive { color: var(--positive); }
+        .impact-bar.positive { background: var(--positive); }
+
+        .lever-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            background: var(--accent-dim);
+            color: var(--accent);
+          }
+
+        /* What-If Scenario */
+        .whatif-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .whatif-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .whatif-slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .whatif-slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .whatif-slider-label span:first-child {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .whatif-slider-label .change-value {
+            font-size: 14px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            color: var(--accent);
+        }
+
+        .whatif-slider-label .change-value.negative {
+            color: var(--danger);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--bg-input);
+            border-radius: 3px;
+            outline: none;
+            border: 1px solid var(--border);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid var(--bg-card);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid var(--bg-card);
+        }
+
+        .whatif-result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .whatif-result-left .label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .whatif-result-left .value {
+            font-size: 28px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--accent);
+        }
+
+        .whatif-result-right {
+            text-align: right;
+        }
+
+        .whatif-result-right .label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .whatif-result-right .value {
+            font-size: 22px;
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+
+        .whatif-result-right .value.positive { color: var(--positive); }
+        .whatif-result-right .value.negative { color: var(--danger); }
+
+        /* Formula display */
+        .formula-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .formula-card .formula {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .formula-card .formula .highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 16px;
+        }
+
+        .footer p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .calculator { padding: 24px 16px; }
+            .input-section, .results-section, .lever-section, .whatif-section { padding: 20px; }
+            .header h1 { font-size: 22px; }
+            .input-grid { grid-template-columns: 1fr; }
+            .velocity-value { font-size: 36px; }
+            .velocity-breakdown { grid-template-columns: 1fr; gap: 10px; }
+            .whatif-grid { grid-template-columns: 1fr; }
+            .lever-table { font-size: 13px; }
+            .lever-table th, .lever-table td { padding: 10px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="header">
+            <div class="header-label">Free Tool</div>
+            <h1>Pipeline Velocity Calculator</h1>
+            <p>Find out how fast revenue moves through your pipeline and which lever has the biggest impact.</p>
+        </div>
+
+        <div class="formula-card">
+            <div class="formula">
+                Pipeline Velocity = (<span class="highlight">Opportunities</span> &times; <span class="highlight">Win Rate</span> &times; <span class="highlight">Deal Size</span>) &divide; <span class="highlight">Sales Cycle</span>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <div class="section-title">
+                <div class="icon">&darr;</div>
+                Your Pipeline Inputs
+            </div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Qualified Opportunities</label>
+                    <div class="help">Active deals in pipeline right now</div>
+                    <div class="input-wrapper">
+                        <input type="number" id="opportunities" value="50" min="1" step="1">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Win Rate</label>
+                    <div class="help">% of opportunities that close</div>
+                    <div class="input-wrapper">
+                        <input type="number" id="winRate" value="25" min="1" max="100" step="1" class="has-suffix">
+                        <span class="suffix">%</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Average Deal Size</label>
+                    <div class="help">Revenue per closed deal</div>
+                    <div class="input-wrapper">
+                        <span class="prefix">$</span>
+                        <input type="number" id="dealSize" value="30000" min="1" step="100" class="has-prefix">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Average Sales Cycle</label>
+                    <div class="help">Days from opportunity to close</div>
+                    <div class="input-wrapper">
+                        <input type="number" id="salesCycle" value="45" min="1" step="1" class="has-suffix">
+                        <span class="suffix">days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="section-title">
+                <div class="icon">$</div>
+                Your Pipeline Velocity
+            </div>
+
+            <div class="period-toggle">
+                <button class="period-btn active" data-period="day" onclick="setPeriod('day')">Per Day</button>
+                <button class="period-btn" data-period="week" onclick="setPeriod('week')">Per Week</button>
+                <button class="period-btn" data-period="month" onclick="setPeriod('month')">Per Month</button>
+                <button class="period-btn" data-period="quarter" onclick="setPeriod('quarter')">Per Quarter</button>
+            </div>
+
+            <div class="velocity-display">
+                <div class="velocity-label">Pipeline Velocity</div>
+                <div class="velocity-value" id="velocityValue">$0</div>
+                <div class="velocity-period" id="velocityPeriod">revenue per day</div>
+            </div>
+
+            <div class="velocity-breakdown">
+                <div class="breakdown-item">
+                    <div class="value" id="expectedRevenue">$0</div>
+                    <div class="label">Expected Revenue</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="value" id="expectedDeals">0</div>
+                    <div class="label">Expected Deals</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="value" id="pipelineCoverage">0x</div>
+                    <div class="label">Pipeline Coverage</div>
+                </div>
+            </div>
+
+            <div style="font-size: 13px; color: var(--text-muted);">
+                <strong style="color: var(--text-secondary);">Reading this:</strong> Pipeline velocity tells you how much revenue moves through your pipeline per day. Higher velocity means faster revenue generation. The expected revenue is what your current pipeline should produce if conversion rates hold.
+            </div>
+        </div>
+
+        <div class="lever-section">
+            <div class="section-title">
+                <div class="icon">&uarr;</div>
+                Lever Impact Analysis
+            </div>
+            <div class="lever-description">
+                What happens to your velocity if you improve each lever by 10%? The biggest bar shows where to focus first.
+            </div>
+
+            <table class="lever-table">
+                <thead>
+                    <tr>
+                        <th>Lever</th>
+                        <th>Current</th>
+                        <th>+10%</th>
+                        <th style="width: 25%;">Impact</th>
+                        <th>New Velocity</th>
+                    </tr>
+                </thead>
+                <tbody id="leverTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="whatif-section">
+            <div class="section-title">
+                <div class="icon">&harr;</div>
+                What-If Scenario Builder
+            </div>
+            <div class="lever-description">
+                Drag the sliders to model changes across all four levers simultaneously and see the combined impact.
+            </div>
+
+            <div class="whatif-grid">
+                <div class="whatif-slider-group">
+                    <div class="whatif-slider-label">
+                        <span>Opportunities</span>
+                        <span class="change-value" id="whatifOppLabel">+0%</span>
+                    </div>
+                    <input type="range" id="whatifOpp" min="-50" max="100" value="0" oninput="updateWhatIf()">
+                </div>
+                <div class="whatif-slider-group">
+                    <div class="whatif-slider-label">
+                        <span>Win Rate</span>
+                        <span class="change-value" id="whatifWinLabel">+0%</span>
+                    </div>
+                    <input type="range" id="whatifWin" min="-50" max="100" value="0" oninput="updateWhatIf()">
+                </div>
+                <div class="whatif-slider-group">
+                    <div class="whatif-slider-label">
+                        <span>Deal Size</span>
+                        <span class="change-value" id="whatifDealLabel">+0%</span>
+                    </div>
+                    <input type="range" id="whatifDeal" min="-50" max="100" value="0" oninput="updateWhatIf()">
+                </div>
+                <div class="whatif-slider-group">
+                    <div class="whatif-slider-label">
+                        <span>Sales Cycle</span>
+                        <span class="change-value" id="whatifCycleLabel">+0%</span>
+                    </div>
+                    <input type="range" id="whatifCycle" min="-50" max="100" value="0" oninput="updateWhatIf()">
+                </div>
+            </div>
+
+            <div class="whatif-result">
+                <div class="whatif-result-left">
+                    <div class="label">Projected Velocity</div>
+                    <div class="value" id="whatifVelocity">$0</div>
+                </div>
+                <div class="whatif-result-right">
+                    <div class="label">Change from Current</div>
+                    <div class="value positive" id="whatifChange">+0%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built by <a href="https://www.gtmlayer.com" target="_blank">GTM Layer</a>. We build signal-driven revenue systems for B2B teams.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentPeriod = 'day';
+
+        function getInputs() {
+            return {
+                opportunities: parseFloat(document.getElementById('opportunities').value) || 0,
+                winRate: (parseFloat(document.getElementById('winRate').value) || 0) / 100,
+                dealSize: parseFloat(document.getElementById('dealSize').value) || 0,
+                salesCycle: parseFloat(document.getElementById('salesCycle').value) || 1
+            };
+        }
+
+        function calcVelocity(opp, winRate, dealSize, salesCycle) {
+            if (salesCycle <= 0) return 0;
+            return (opp * winRate * dealSize) / salesCycle;
+        }
+
+        function getPeriodMultiplier(period) {
+            switch (period) {
+                case 'day': return 1;
+                case 'week': return 7;
+                case 'month': return 30;
+                case 'quarter': return 90;
+                default: return 1;
+            }
+        }
+
+        function getPeriodLabel(period) {
+            switch (period) {
+                case 'day': return 'revenue per day';
+                case 'week': return 'revenue per week';
+                case 'month': return 'revenue per month';
+                case 'quarter': return 'revenue per quarter';
+                default: return 'revenue per day';
+            }
+        }
+
+        function formatCurrency(value) {
+            if (value >= 1000000) return '$' + (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            if (value >= 10000) return '$' + (value / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+            if (value >= 1000) return '$' + (value / 1000).toFixed(1) + 'k';
+            return '$' + Math.round(value).toLocaleString();
+        }
+
+        function formatNumber(value) {
+            if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+            if (value >= 1000) return (value / 1000).toFixed(1) + 'k';
+            return Math.round(value).toLocaleString();
+        }
+
+        function setPeriod(period) {
+            currentPeriod = period;
+            document.querySelectorAll('.period-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.period === period);
+            });
+            calculate();
+}
+
+        function calculate() {
+            const { opportunities, winRate, dealSize, salesCycle } = getInputs();
+            const dailyVelocity = calcVelocity(opportunities, winRate, dealSize, salesCycle);
+            const periodMultiplier = getPeriodMultiplier(currentPeriod);
+            const displayVelocity = dailyVelocity * periodMultiplier;
+
+            // Main velocity display
+            document.getElementById('velocityValue').textContent = formatCurrency(displayVelocity);
+            document.getElementById('velocityPeriod').textContent = getPeriodLabel(currentPeriod);
+
+            // Breakdown
+            const expectedRevenue = opportunities * winRate * dealSize;
+            const expectedDeals = opportunities * winRate;
+            const targetQuarterly = dailyVelocity * 90;
+            const coverage = targetQuarterly > 0 ? (opportunities * dealSize) / targetQuarterly : 0;
+
+            document.getElementById('expectedRevenue').textContent = formatCurrency(expectedRevenue);
+            document.getElementById('expectedDeals').textContent = Math.round(expectedDeals).toLocaleString();
+            document.getElementById('pipelineCoverage').textContent = coverage.toFixed(1) + 'x';
+
+            // Lever analysis
+            updateLevers(opportunities, winRate, dealSize, salesCycle, dailyVelocity);
+            updateWhatIf();
+        }
+
+        function updateLevers(opp, winRate, dealSize, salesCycle, baseVelocity) {
+            const improvement = 0.10; // 10%
+            const periodMultiplier = getPeriodMultiplier(currentPeriod);
+
+            const levers = [
+                {
+                    name: 'More Opportunities',
+                    current: opp.toLocaleString(),
+                    improved: Math.round(opp * (1 + improvement)).toLocaleString(),
+                    newVelocity: calcVelocity(opp * (1 + improvement), winRate, dealSize, salesCycle)
+                },
+                {
+                    name: 'Higher Win Rate',
+                    current: (winRate * 100).toFixed(0) + '%',
+                    improved: (winRate * (1 + improvement) * 100).toFixed(0) + '%',
+                    newVelocity: calcVelocity(opp, winRate * (1 + improvement), dealSize, salesCycle)
+                },
+                {
+                    name: 'Larger Deal Size',
+                    current: formatCurrency(dealSize),
+                    improved: formatCurrency(dealSize * (1 + improvement)),
+                    newVelocity: calcVelocity(opp, winRate, dealSize * (1 + improvement), salesCycle)
+                },
+                {
+                    name: 'Shorter Sales Cycle',
+                    current: salesCycle + ' days',
+                    improved: Math.round(salesCycle * (1 - improvement)) + ' days',
+                    newVelocity: calcVelocity(opp, winRate, dealSize, salesCycle * (1 - improvement))
+                }
+            ];
+
+            // Calculate impacts
+            levers.forEach(l => {
+                l.impact = baseVelocity > 0 ? ((l.newVelocity - baseVelocity) / baseVelocity) * 100 : 0;
+            });
+
+            const maxImpact = Math.max(...levers.map(l => Math.abs(l.impact)));
+
+            // Find the biggest lever
+            let biggestIdx = 0;
+            let biggestImpact = 0;
+            levers.forEach((l, i) => {
+                if (Math.abs(l.impact) > biggestImpact) {
+                    biggestImpact = Math.abs(l.impact);
+                    biggestIdx = i;
+                }
+            });
+
+            const tbody = document.getElementById('leverTableBody');
+            tbody.innerHTML = levers.map((l, i) => `
+                <tr>
+                    <td>${l.name}${i === biggestIdx ? '<span class="lever-badge">Biggest Lever</span>' : ''}</td>
+                    <td>${l.current}</td>
+                    <td>${l.improved}</td>
+                    <td class="impact-bar-cell">
+                        <div class="impact-bar-wrapper">
+                            <div class="impact-bar positive" style="width: ${maxImpact > 0 ? (Math.abs(l.impact) / maxImpact) * 100 : 0}%"></div>
+                        </div>
+                    </td>
+                    <td class="impact-positive">${formatCurrency(l.newVelocity * periodMultiplier)}</td>
+                </tr>
+            `).join('');
+}
+
+        function updateWhatIf() {
+            const { opportunities, winRate, dealSize, salesCycle } = getInputs();
+            const baseVelocity = calcVelocity(opportunities, winRate, dealSize, salesCycle);
+
+            const oppChange = parseInt(document.getElementById('whatifOpp').value);
+            const winChange = parseInt(document.getElementById('whatifWin').value);
+            const dealChange = parseInt(document.getElementById('whatifDeal').value);
+            const cycleChange = parseInt(document.getElementById('whatifCycle').value);
+
+            // Update labels
+            const formatChange = (val, el) => {
+                const label = document.getElementById(el);
+                label.textContent = (val >= 0 ? '+' : '') + val + '%';
+                label.classList.toggle('negative', val < 0);
+            };
+            formatChange(oppChange, 'whatifOppLabel');
+            formatChange(winChange, 'whatifWinLabel');
+            formatChange(dealChange, 'whatifDealLabel');
+            formatChange(cycleChange, 'whatifCycleLabel');
+
+            const newOpp = opportunities * (1 + oppChange / 100);
+            const newWin = winRate * (1 + winChange / 100);
+            const newDeal = dealSize * (1 + dealChange / 100);
+            const newCycle = salesCycle * (1 + cycleChange / 100);
+
+            const newVelocity = calcVelocity(newOpp, newWin, newDeal, Math.max(newCycle, 1));
+            const periodMultiplier = getPeriodMultiplier(currentPeriod);
+
+            document.getElementById('whatifVelocity').textContent = formatCurrency(newVelocity * periodMultiplier);
+
+            const changeEl = document.getElementById('whatifChange');
+            const pctChange = baseVelocity > 0 ? ((newVelocity - baseVelocity) / baseVelocity) * 100 : 0;
+            changeEl.textContent = (pctChange >= 0 ? '+' : '') + pctChange.toFixed(1) + '%';
+            changeEl.className = 'value ' + (pctChange >= 0 ? 'positive' : 'negative');
+        }
+
+        // Bind input events
+        document.querySelectorAll('.input-section input[type="number"]').forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>
