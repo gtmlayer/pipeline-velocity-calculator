@@ -1449,7 +1449,7 @@
             } else {
                 tier = 'Signal-Driven';
                 tierClass = 'score-high';
-                subtitle = 'Your systems are operating with real revenue intelligence. You are ahead of most B2B teams.';
+                subtitle = 'Your systems are operating with real revenue intelligence. You are ahead of most SaaS GTM teams.';
             }
 
             // Update UI
@@ -1474,8 +1474,13 @@
 
             // Velocity gap calculation
             // Lower score = more velocity left on the table
-            // Model: teams moving from current tier to signal-driven see 15-45% velocity uplift
-            const gapPct = Math.round((100 - totalPct) * 0.45);
+            // Model for enterprise SaaS GTM teams, based on:
+            // - 6sense Business Impact Framework: 2x deal size, 25% faster close, 10% conversion lift
+            // - Instantly 2026 benchmarks: signal-triggered sends convert 3-5x cold lists
+            // - Apollo 2026 GTM Report: 2.37% cold-to-meeting vs 0.5-1.5% industry avg
+            // - Winning by Design: enterprise SaaS win rates 15-22%, cycles 90-180 days
+            // 0.35 multiplier = conservative modelled estimate of compound lever effects
+            const gapPct = Math.round((100 - totalPct) * 0.35);
             const { opportunities, winRate, dealSize, salesCycle } = getInputs();
             const baseVelocity = calcVelocity(opportunities, winRate, dealSize, salesCycle);
             const periodMultiplier = getPeriodMultiplier(currentPeriod);
@@ -1490,23 +1495,23 @@
             const insights = [];
 
             if (qualRaw <= 7) {
-                insights.push('<strong>Qualification is your biggest gap.</strong> Most of your pipeline is not signal-qualified, which means reps are spending time on deals without real buying signals. Signal-based qualification typically improves win rates by 15-25%.');
+                insights.push('<strong>Qualification is your biggest gap.</strong> Most of your pipeline is not signal-qualified, which means reps are spending time on deals without real buying signals. Enterprise SaaS teams using signal-based qualification see 25-35% higher conversion rates and 25% faster time to close (6sense Business Impact Framework). With enterprise win rates averaging 15-22%, even a modest qualification improvement compounds fast.');
             } else if (qualRaw <= 11) {
-                insights.push('<strong>Your qualification has a foundation but is not signal-driven yet.</strong> Moving from checklist-based to signal-informed qualification means your CRM starts telling reps where to focus, rather than reps telling the CRM what happened.');
+                insights.push('<strong>Your qualification has a foundation but is not signal-driven yet.</strong> Moving from checklist-based to signal-informed qualification means your CRM starts telling reps where to focus, rather than reps telling the CRM what happened. In enterprise SaaS, where deals involve 10-13 stakeholders and 90-180 day cycles, signal-driven multi-threading (engaging 3+ contacts) closes deals at 3.1x the rate of single-threaded outreach.');
             }
 
             if (outboundRaw <= 7) {
-                insights.push('<strong>Your outbound is running without intelligence.</strong> Spray-and-pray outbound typically converts at 1-2%. Signal-driven outbound, where sequences fire based on intent and engagement data, converts at 3-5x that rate.');
+                insights.push('<strong>Your outbound is running without intelligence.</strong> In enterprise SaaS, cold list outbound converts to meetings at under 1% (Instantly 2026 Cold Email Benchmark Report). Signal-triggered outbound, where sequences fire on intent signals like site visits, job changes, or funding events, converts at 1.2-3.2% (Apollo 2026 GTM Report). That is a 3-5x difference on the same effort.');
             } else if (outboundRaw <= 11) {
-                insights.push('<strong>Outbound has some targeting but is not signal-triggered.</strong> The difference between filtered lists and signal-triggered prospecting is timing. Reaching accounts when they are actively researching changes conversion rates dramatically.');
+                insights.push('<strong>Outbound has some targeting but is not signal-triggered.</strong> The difference between filtered lists and signal-triggered prospecting is timing. In enterprise SaaS, reaching accounts when they are actively researching changes conversion rates by 3-5x (Instantly, Apollo 2026 benchmarks). The gap between "right company" and "right company, right moment" is where pipeline velocity lives.');
             }
 
             if (qualRaw <= 5 && outboundRaw <= 5) {
-                insights.push('<strong>There is no intelligence layer connecting your systems.</strong> Your CRM, outbound tools, and pipeline exist as separate workflows. Connecting them through signals is where the compound velocity gains live.');
+                insights.push('<strong>There is no intelligence layer connecting your systems.</strong> Your CRM, outbound tools, and pipeline exist as separate workflows. For enterprise SaaS teams, connecting them through signals is where the compound velocity gains live. 6sense customers report 2x deal sizes and 25% shorter cycles when intent data drives prioritisation.');
             }
 
             if (totalPct >= 70) {
-                insights.push('<strong>You are operating above most B2B teams.</strong> The remaining gains come from tightening the feedback loop between outbound signals and deal qualification, so every touchpoint makes your pipeline smarter.');
+                insights.push('<strong>You are operating above most SaaS GTM teams.</strong> The remaining gains come from tightening the feedback loop between outbound signals and deal qualification, so every touchpoint makes your pipeline smarter. At this level, focus on multi-threading (3+ contacts per opportunity) and signal-driven expansion plays.');
             }
 
             const insightsEl = document.getElementById('diagnosticInsights');
