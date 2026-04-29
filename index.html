@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipeline Velocity Calculator for B2B SaaS | GTM Layer</title>
+    <title>Pipeline Velocity Calculator & Revenue Intelligence Score | GTM Layer</title>
     <meta name="description" content="Calculate your B2B SaaS pipeline velocity, identify your biggest revenue lever, and benchmark your revenue intelligence against enterprise GTM teams. Free tool from GTM Layer.">
     <meta name="keywords" content="pipeline velocity calculator, B2B SaaS pipeline, sales velocity formula, revenue intelligence, deal velocity, win rate calculator, sales cycle optimisation, GTM tools, RevOps calculator">
     <link rel="canonical" href="https://gtmlayer.github.io/pipeline-velocity-calculator/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Pipeline Velocity Calculator for B2B SaaS | GTM Layer">
+    <meta property="og:title" content="Pipeline Velocity Calculator & Revenue Intelligence Score | GTM Layer">
     <meta property="og:description" content="Calculate your pipeline velocity, find your biggest revenue lever, and benchmark your revenue intelligence against enterprise SaaS GTM teams.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gtmlayer.github.io/pipeline-velocity-calculator/">
@@ -17,7 +17,7 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Pipeline Velocity Calculator for B2B SaaS | GTM Layer">
+    <meta name="twitter:title" content="Pipeline Velocity Calculator & Revenue Intelligence Score | GTM Layer">
     <meta name="twitter:description" content="Calculate your pipeline velocity, find your biggest revenue lever, and benchmark your revenue intelligence against enterprise SaaS GTM teams.">
 
     <!-- Structured Data: FAQ Schema for AEO -->
@@ -141,26 +141,52 @@
         }
 
         .header-label {
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--accent);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .header h1 {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 42px;
+            font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
         }
 
         .header p {
-            font-size: 15px;
+            font-size: 18px;
+            font-weight: 300;
             color: var(--text-secondary);
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .header-outputs {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .header-output-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .header-output-item .check {
+            color: var(--accent);
+            font-size: 16px;
         }
 
         /* Input Section */
@@ -173,24 +199,24 @@
         }
 
         .section-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 500;
             color: var(--text-primary);
             margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .section-title .icon {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background: var(--accent-dim);
-            border-radius: 4px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 13px;
             color: var(--accent);
         }
 
@@ -207,13 +233,13 @@
         }
 
         .input-group label {
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 500;
             color: var(--text-secondary);
         }
 
         .input-group .help {
-            font-size: 11px;
+            font-size: 13px;
             color: var(--text-muted);
             margin-top: -2px;
         }
@@ -268,8 +294,8 @@
         }
 
         .period-btn {
-            padding: 8px 16px;
-            font-size: 13px;
+            padding: 10px 18px;
+            font-size: 15px;
             font-weight: 500;
             font-family: var(--font-sans);
             color: var(--text-muted);
@@ -306,7 +332,7 @@
         }
 
         .velocity-label {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             color: var(--text-secondary);
             text-transform: uppercase;
@@ -315,7 +341,7 @@
         }
 
         .velocity-value {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 700;
             font-family: var(--font-mono);
             color: var(--accent);
@@ -324,7 +350,7 @@
         }
 
         .velocity-period {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--text-muted);
         }
 
@@ -345,7 +371,7 @@
         }
 
         .breakdown-item .value {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 600;
             font-family: var(--font-mono);
             color: var(--text-primary);
@@ -353,7 +379,7 @@
         }
 
         .breakdown-item .label {
-            font-size: 11px;
+            font-size: 13px;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -369,7 +395,8 @@
         }
 
         .lever-description {
-            font-size: 13px;
+            font-size: 16px;
+            font-weight: 300;
             color: var(--text-secondary);
             margin-bottom: 24px;
         }
@@ -380,7 +407,7 @@
         }
 
         .lever-table th {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -396,7 +423,7 @@
 
         .lever-table td {
             padding: 14px 12px;
-            font-size: 14px;
+            font-size: 16px;
             border-bottom: 1px solid var(--border);
         }
 
@@ -445,7 +472,7 @@
 
         .lever-badge {
             display: inline-block;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -485,7 +512,7 @@
         }
 
         .whatif-slider-label span:first-child {
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 500;
             color: var(--text-secondary);
         }
@@ -586,7 +613,7 @@
 
         .formula-card .formula {
             font-family: var(--font-mono);
-            font-size: 14px;
+            font-size: 16px;
             color: var(--text-secondary);
             line-height: 1.8;
         }
@@ -605,7 +632,7 @@
         }
 
         .footer p {
-            font-size: 13px;
+            font-size: 15px;
             color: var(--text-muted);
         }
 
@@ -626,7 +653,8 @@
         }
 
         .diagnostic-intro {
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 300;
             color: var(--text-secondary);
             margin-bottom: 28px;
             line-height: 1.6;
@@ -641,7 +669,7 @@
         }
 
         .category-header {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--accent);
             text-transform: uppercase;
@@ -660,10 +688,10 @@
         }
 
         .dq-label {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .dq-options {
@@ -685,11 +713,11 @@
 
         .dq-option .dq-btn {
             display: block;
-            padding: 10px 8px;
+            padding: 12px 10px;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 14px;
             font-family: var(--font-sans);
             color: var(--text-muted);
             text-align: center;
@@ -711,7 +739,7 @@
         }
 
         .dq-score-label {
-            font-size: 10px;
+            font-size: 12px;
             color: var(--text-muted);
             text-align: right;
             margin-top: 4px;
@@ -757,7 +785,7 @@
         .score-value.score-high { color: var(--positive); }
 
         .score-tier {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: 600;
             margin-bottom: 4px;
         }
@@ -767,7 +795,7 @@
         .score-tier.score-high { color: var(--positive); }
 
         .score-subtitle {
-            font-size: 13px;
+            font-size: 15px;
             color: var(--text-muted);
         }
 
@@ -786,7 +814,7 @@
         }
 
         .category-score-card .cat-name {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
@@ -849,7 +877,7 @@
         }
 
         .gap-current .gap-label, .gap-potential .gap-label {
-            font-size: 11px;
+            font-size: 13px;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -890,14 +918,15 @@
         }
 
         .insight-item {
-            padding: 14px 16px;
+            padding: 16px 20px;
             background: var(--bg-input);
             border-radius: 8px;
             border-left: 3px solid var(--accent);
-            margin-bottom: 10px;
-            font-size: 13px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            font-weight: 300;
             color: var(--text-secondary);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .insight-item:last-child { margin-bottom: 0; }
@@ -916,20 +945,21 @@
         }
 
         .diagnostic-cta p {
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 300;
             color: var(--text-secondary);
             margin-bottom: 14px;
         }
 
         .diagnostic-cta a {
             display: inline-block;
-            padding: 10px 24px;
+            padding: 12px 28px;
             background: var(--teal);
             border: 1px solid var(--accent);
             border-radius: 6px;
             color: var(--accent);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             transition: all 0.2s;
         }
@@ -962,8 +992,14 @@
     <div class="calculator">
         <div class="header">
             <div class="header-label">Free B2B SaaS Tool</div>
-            <h1>Pipeline Velocity Calculator</h1>
-            <p>See how fast revenue moves through your pipeline and which lever compounds the most. Built for enterprise SaaS GTM teams.</p>
+            <h1>Pipeline Velocity Calculator<br>& Revenue Intelligence Score</h1>
+            <p>Calculate your deal velocity, find the lever that compounds the most, and benchmark your signal maturity against enterprise SaaS GTM teams.</p>
+            <div class="header-outputs">
+                <div class="header-output-item"><span class="check">&#10003;</span> Pipeline velocity breakdown</div>
+                <div class="header-output-item"><span class="check">&#10003;</span> Biggest-lever analysis</div>
+                <div class="header-output-item"><span class="check">&#10003;</span> Revenue intelligence score</div>
+                <div class="header-output-item"><span class="check">&#10003;</span> Signal maturity benchmarks</div>
+            </div>
         </div>
 
         <div class="formula-card">
