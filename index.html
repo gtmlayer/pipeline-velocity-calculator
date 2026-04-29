@@ -1649,6 +1649,24 @@
             input.addEventListener('input', calculate);
         });
 
+        // Iframe detection & dynamic height
+        (function() {
+          if (window.self !== window.top) {
+            document.documentElement.style.overflow = 'visible';
+            document.body.style.overflow = 'visible';
+            function sendHeight() {
+              var h = document.documentElement.scrollHeight;
+              window.parent.postMessage({ type: 'gtmlayer-calc-height', height: h }, '*');
+            }
+            sendHeight();
+            window.addEventListener('resize', sendHeight);
+            var observer = new MutationObserver(function() { setTimeout(sendHeight, 50); });
+            observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+            var origCalc = calculate;
+            calculate = function() { origCalc(); setTimeout(sendHeight, 100); };
+          }
+        })();
+
         // Initial calculation
         calculate();
     </script>
